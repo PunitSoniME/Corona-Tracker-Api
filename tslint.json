@@ -1,0 +1,48 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "no-console": [
+          true,
+          "debug",
+          "info",
+          "time",
+          "timeEnd",
+          "trace"
+        ],
+         "no-any": false,
+         "whitespace": [true, "check-branch","check-decl", "check-operator","check-module","check-separator", "check-typecast"],
+         "variable-name": [ true, "ban-keywords", "check-format", "allow-leading-underscore" ],
+         "semicolon": [true, "always"],
+         "one-variable-per-declaration": [ false ], 
+         "new-parens": true, 
+         "interface-name": [true, "always-prefix"],
+         "class-name": true, 
+         "trailing-comma": [true, {"multiline": "never", "singleline": "never"}], 
+         "max-line-length": [true, 500],
+         "max-file-line-count": [true, 1000],
+         "use-isnan": true,
+         "triple-equals": true,
+         "no-use-before-declare": true,
+         "no-unused-variable": [true],
+         "no-eval": true , 
+         "no-empty": false ,
+         "no-invalid-this": false,
+         "no-var-keyword": true ,
+         "no-trailing-whitespace": true,
+         "comment-format": [ true, "check-space" ],
+         "curly": true,
+         "only-arrow-functions": [ true ],
+         "object-literal-sort-keys": [ false ],
+         "eofline": false,
+         "no-unused-expression": false,
+         "label-position": false,
+         "space-before-function-paren": false,
+         "object-literal-shorthand": false,
+         "no-string-literal": false
+        },
+    "rulesDirectory": []
+}

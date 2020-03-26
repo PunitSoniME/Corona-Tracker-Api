@@ -15,5 +15,6 @@ export class CoronaDataRoutes {
         this.router.get("/All", this.controller.getAll);
         this.router.get("/Countries", this.controller.getAllCountries);
         this.router.get("/Countries/:countryName", this.controller.getCountryData);
+        // this.router.get("/Countries/:countryName", this.controller.getCountryDataInDetails);
     }
 }

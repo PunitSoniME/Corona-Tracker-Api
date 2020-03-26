@@ -19,15 +19,19 @@ export class CoronaDataController {
             }
 
             return https.request(options, function (resp) {
-                let data = '';
-                // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
+                if (resp.statusCode == 200) {
+                    let data = '';
+                    // A chunk of data has been recieved.
+                    resp.on('data', (chunk) => {
+                        data += chunk;
+                    });
 
-                resp.on('end', () => {
-                    return res.status(StatusCode.Ok).json(JSON.parse(data));
-                });
+                    resp.on('end', () => {
+                        return res.status(StatusCode.Ok).json(JSON.parse(data));
+                    });
+                } else {
+                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
+                }
             }).on("error", (err) => {
                 console.log("Error: " + err.message);
             }).end();
@@ -50,15 +54,19 @@ export class CoronaDataController {
             }
 
             return https.request(options, function (resp) {
-                let data = '';
-                // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
+                if (resp.statusCode == 200) {
+                    let data = '';
+                    // A chunk of data has been recieved.
+                    resp.on('data', (chunk) => {
+                        data += chunk;
+                    });
 
-                resp.on('end', () => {
-                    return res.status(StatusCode.Ok).json(JSON.parse(data));
-                });
+                    resp.on('end', () => {
+                        return res.status(StatusCode.Ok).json(JSON.parse(data));
+                    });
+                } else {
+                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
+                }
             }).on("error", (err) => {
                 console.log("Error: " + err.message);
             }).end();
@@ -89,6 +97,40 @@ export class CoronaDataController {
                 resp.on('end', () => {
                     return res.status(StatusCode.Ok).json(JSON.parse(data));
                 });
+            }).on("error", (err) => {
+                console.log("Error: " + err.message);
+            }).end();
+
+        } catch (ex) {
+            return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
+        }
+    }
+
+    public async getCountryDataInDetails(req: Request | any, res: Response, next: NextFunction): Promise<any> {
+        try {
+            var options = {
+                host: variables.coronaApi,
+                path: '/countries/' + req.params.countryName,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+
+            return https.request(options, function (resp) {
+                if (resp.statusCode == 200) {
+                    let data = '';
+                    // A chunk of data has been recieved.
+                    resp.on('data', (chunk) => {
+                        data += chunk;
+                    });
+
+                    resp.on('end', () => {
+                        return res.status(StatusCode.Ok).json(JSON.parse(data));
+                    });
+                } else {
+                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
+                }
             }).on("error", (err) => {
                 console.log("Error: " + err.message);
             }).end();

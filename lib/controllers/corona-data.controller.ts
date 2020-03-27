@@ -3,7 +3,8 @@ import * as _ from "lodash";
 import { StatusCode } from "../providers/status-code";
 import * as https from 'https';
 import * as variables from './../config/variables';
-import * as OAuth from 'OAuth';
+var OAuth = require('oauth');
+// import * as OAuth from 'OAuth';
 
 export class CoronaDataController {
 

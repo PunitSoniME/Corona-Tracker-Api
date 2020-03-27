@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { StatusCode } from "../providers/status-code";
 import * as https from 'https';
 import * as variables from './../config/variables';
+import * as OAuth from 'OAuth';
 
 export class CoronaDataController {
 
@@ -33,7 +34,7 @@ export class CoronaDataController {
                     return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
                 }
             }).on("error", (err) => {
-                console.log("Error: " + err.message);
+                return res.status(StatusCode.PreconditionFailed).json({ message: err.message });
             }).end();
 
         } catch (ex) {
@@ -68,7 +69,7 @@ export class CoronaDataController {
                     return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
                 }
             }).on("error", (err) => {
-                console.log("Error: " + err.message);
+                return res.status(StatusCode.PreconditionFailed).json({ message: err.message });
             }).end();
 
         } catch (ex) {
@@ -98,7 +99,7 @@ export class CoronaDataController {
                     return res.status(StatusCode.Ok).json(JSON.parse(data));
                 });
             }).on("error", (err) => {
-                console.log("Error: " + err.message);
+                return res.status(StatusCode.PreconditionFailed).json(err.message);
             }).end();
 
         } catch (ex) {
@@ -132,11 +133,56 @@ export class CoronaDataController {
                     return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
                 }
             }).on("error", (err) => {
-                console.log("Error: " + err.message);
+                return res.status(StatusCode.PreconditionFailed).json({ message: err.message });
             }).end();
 
         } catch (ex) {
             return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
         }
     }
+
+    public async getTwitterHashTagDetails(req: Request | any, res: Response, next: NextFunction): Promise<any> {
+        try {
+            let hashTag = req.body.hashTag;
+            let nextResult = req.body.nextResults;
+
+            var oauth = new OAuth.OAuth(
+                'https://api.twitter.com/oauth/request_token',
+                'https://api.twitter.com/oauth/access_token',
+                variables.twitterKey,
+                variables.twitterSecret,
+                '1.0A',
+                null,
+                'HMAC-SHA1'
+            );
+
+            let apiUrl: string = "https://api.twitter.com/1.1/search/tweets.json";
+
+            if (nextResult) {
+                apiUrl = apiUrl + nextResult;
+            }
+            else {
+                apiUrl = `${apiUrl}?q=${hashTag}&count=50`;
+            }
+
+            return oauth.get(
+                apiUrl,
+                variables.token,
+                variables.secret,
+                (error, data, response) => {
+                    if (error) {
+                        return res.status(StatusCode.PreconditionFailed).json(error);
+                    };
+                    if (response.statusCode == 200) {
+                        return res.status(StatusCode.Ok).json(JSON.parse(data as any));
+                    }
+                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
+                });
+
+        } catch (ex) {
+            return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
+        }
+    }
+
+
 }

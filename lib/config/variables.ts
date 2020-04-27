@@ -1,5 +1,5 @@
 export const apiUrl = "https://platform-backend-new.herokuapp.com";
-export const coronaApi = "corona.lmao.ninja";
+export const coronaApi = "corona.lmao.ninja/v2";
 
 
 export const twitterKey = 'hRGqsRzeMdxU7k5em7T3HhCcR';

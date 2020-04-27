@@ -13,7 +13,7 @@ export class CoronaDataController {
 
             var options = {
                 host: variables.coronaApi,
-                path: '/all',
+                path: '/v2/all',
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export class CoronaDataController {
 
             var options = {
                 host: variables.coronaApi,
-                path: '/countries',
+                path: '/v2/countries',
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export class CoronaDataController {
         try {
             var options = {
                 host: variables.coronaApi,
-                path: '/countries/' + req.params.countryName,
+                path: '/v2/countries/' + req.params.countryName,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ export class CoronaDataController {
         try {
             var options = {
                 host: variables.coronaApi,
-                path: '/countries/' + req.params.countryName,
+                path: '/v2/countries/' + req.params.countryName,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

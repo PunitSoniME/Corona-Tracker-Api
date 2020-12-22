@@ -1,1 +1,1 @@
-"# platform-backend-typescript" 
+# Corona Tracker Api: https://corona-data-api.herokuapp.com

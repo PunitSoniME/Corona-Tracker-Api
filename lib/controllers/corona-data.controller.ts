@@ -1,43 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import * as _ from "lodash";
 import { StatusCode } from "../providers/status-code";
-import * as https from 'https';
-import * as variables from './../config/variables';
 var OAuth = require('oauth');
-// import * as OAuth from 'OAuth';
+
+import axios from 'axios';
 
 export class CoronaDataController {
 
     public async getAll(req: Request | any, res: Response, next: NextFunction): Promise<any> {
         try {
-
-            var options = {
-                host: variables.coronaApi,
-                path: '/v2/all',
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-
-            return https.request(options, function (resp) {
-                if (resp.statusCode == 200) {
-                    let data = '';
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-
-                    resp.on('end', () => {
-                        return res.status(StatusCode.Ok).json(JSON.parse(data));
-                    });
-                } else {
-                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
-                }
-            }).on("error", (err) => {
-                return res.status(StatusCode.PreconditionFailed).json({ message: err.message });
-            }).end();
-
+            return await axios.get(process.env.CORONA_API + 'all').then((response) => {
+                return res.status(StatusCode.Ok).json(response.data);
+            }).catch((error) => {
+                return res.status(StatusCode.PreconditionFailed).json({ message: error.message });
+            });
         } catch (ex) {
             return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
         }
@@ -45,34 +21,11 @@ export class CoronaDataController {
 
     public async getAllCountries(req: Request | any, res: Response, next: NextFunction): Promise<any> {
         try {
-
-            var options = {
-                host: variables.coronaApi,
-                path: '/v2/countries',
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-
-            return https.request(options, function (resp) {
-                if (resp.statusCode == 200) {
-                    let data = '';
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-
-                    resp.on('end', () => {
-                        return res.status(StatusCode.Ok).json(JSON.parse(data));
-                    });
-                } else {
-                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
-                }
-            }).on("error", (err) => {
-                return res.status(StatusCode.PreconditionFailed).json({ message: err.message });
-            }).end();
-
+            return await axios.get(process.env.CORONA_API + 'countries').then((response) => {
+                return res.status(StatusCode.Ok).json(response.data);
+            }).catch((error) => {
+                return res.status(StatusCode.PreconditionFailed).json({ message: error.message });
+            });
         } catch (ex) {
             return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
         }
@@ -80,29 +33,11 @@ export class CoronaDataController {
 
     public async getCountryData(req: Request | any, res: Response, next: NextFunction): Promise<any> {
         try {
-            var options = {
-                host: variables.coronaApi,
-                path: '/v2/countries/' + req.params.countryName,
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-
-            return https.request(options, function (resp) {
-                let data = '';
-                // A chunk of data has been recieved.
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
-
-                resp.on('end', () => {
-                    return res.status(StatusCode.Ok).json(JSON.parse(data));
-                });
-            }).on("error", (err) => {
-                return res.status(StatusCode.PreconditionFailed).json(err.message);
-            }).end();
-
+            return await axios.get(process.env.CORONA_API + 'countries/' + req.params.countryName).then((response) => {
+                return res.status(StatusCode.Ok).json(response.data);
+            }).catch((error) => {
+                return res.status(StatusCode.PreconditionFailed).json({ message: error.message });
+            });
         } catch (ex) {
             return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
         }
@@ -110,33 +45,11 @@ export class CoronaDataController {
 
     public async getCountryDataInDetails(req: Request | any, res: Response, next: NextFunction): Promise<any> {
         try {
-            var options = {
-                host: variables.coronaApi,
-                path: '/v2/countries/' + req.params.countryName,
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            }
-
-            return https.request(options, function (resp) {
-                if (resp.statusCode == 200) {
-                    let data = '';
-                    // A chunk of data has been recieved.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-
-                    resp.on('end', () => {
-                        return res.status(StatusCode.Ok).json(JSON.parse(data));
-                    });
-                } else {
-                    return res.status(StatusCode.PreconditionFailed).json({ message: 'Server is down, Please try after some time' });
-                }
-            }).on("error", (err) => {
-                return res.status(StatusCode.PreconditionFailed).json({ message: err.message });
-            }).end();
-
+            return await axios.get(process.env.CORONA_API + 'countries/' + req.params.countryName).then((response) => {
+                return res.status(StatusCode.Ok).json(response.data);
+            }).catch((error) => {
+                return res.status(StatusCode.PreconditionFailed).json({ message: error.message });
+            });
         } catch (ex) {
             return res.status(StatusCode.PreconditionFailed).json({ message: ex.message });
         }
@@ -150,8 +63,8 @@ export class CoronaDataController {
             var oauth = new OAuth.OAuth(
                 'https://api.twitter.com/oauth/request_token',
                 'https://api.twitter.com/oauth/access_token',
-                variables.twitterKey,
-                variables.twitterSecret,
+                process.env.TWITTER_KEY,
+                process.env.TWITTER_SECRET,
                 '1.0A',
                 null,
                 'HMAC-SHA1'
@@ -168,8 +81,8 @@ export class CoronaDataController {
 
             return oauth.get(
                 apiUrl,
-                variables.token,
-                variables.secret,
+                process.env.TOKEN,
+                process.env.SECRET,
                 (error, data, response) => {
                     if (error) {
                         return res.status(StatusCode.PreconditionFailed).json(error);

@@ -12,10 +12,10 @@ export class CoronaDataRoutes {
     }
 
     public routes() {
-        this.router.get("/All", this.controller.getAll);
-        this.router.get("/Countries", this.controller.getAllCountries);
-        this.router.get("/Countries/:countryName", this.controller.getCountryData);
-        this.router.get("/Countries/:countryName", this.controller.getCountryDataInDetails);
+        this.router.get("/all", this.controller.getAll);
+        this.router.get("/countries", this.controller.getAllCountries);
+        this.router.get("/countries/:countryName", this.controller.getCountryData);
+        this.router.get("/countries/:countryName", this.controller.getCountryDataInDetails);
 
         this.router.post("/GetTwitterHashTagDetails", this.controller.getTwitterHashTagDetails);
     }

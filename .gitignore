@@ -95,3 +95,6 @@ typings/
 node_modules
 dist
 # End of https://www.gitignore.io/api/node
+
+package-lock.json
+yarn.lock
